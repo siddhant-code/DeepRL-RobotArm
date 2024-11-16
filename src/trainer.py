@@ -1,4 +1,5 @@
 import os
+import configparser
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import keras
 from keras import layers
@@ -7,6 +8,12 @@ from gymnasium.wrappers import GrayscaleObservation,ResizeObservation
 from gymnasium.wrappers import FrameStackObservation as FrameStack
 import numpy as np
 import tensorflow as tf
+import configparser
+
+config = configparser.ConfigParser()
+config.read("src/config.ini")
+
+SETTING = config["SETTING"]["setting"]
 
 # Configuration parameters for the whole setup
 seed = 42
@@ -32,7 +39,8 @@ env = ResizeObservation(env,(84,84))
 env = FrameStack(env, 4)
 num_actions = env.action_space.n
 
-validation_data = np.load("src/data/settingB.npy")
+
+validation_data = np.load(f"src/data/setting{SETTING}.npy")
 
 #@keras.saving.register_keras_serializable("TransposeLayer")
 class TransposeLayer(layers.Layer):
@@ -207,14 +215,14 @@ while True:
     episode_reward_history.append(episode_reward)
     
     if episode_count % save_after_episode == 0:
-            model.save("src/model/modelB"+str(episode_count)+".keras")
+            model.save(f"src/model/model{SETTING}"+str(episode_count)+".keras")
             y = []
             for data in validation_data:
                 tensor = keras.ops.convert_to_tensor(data)
                 tensor = keras.ops.expand_dims(tensor, 0)
                 action_probs = model.predict(tensor)
                 y.append(keras.ops.max(action_probs[0]).numpy())
-            with open("src/data/dataB.csv",mode = "a") as file:
+            with open(f"src/data/data{SETTING}.csv",mode = "a") as file:
                 file.write(str(episode_count)+","+str(np.mean(y))+"\n")
     if len(episode_reward_history) > 100:
         del episode_reward_history[:1]
