@@ -24,7 +24,7 @@ class TransposeLayer(layers.Layer):
     def call(self, inputs):
         return tf.transpose(inputs, perm=[0, 2, 3, 1])
 
-model = keras.models.load_model("src/model/modelA100000.keras",{"TransposeLayer":TransposeLayer})
+model = keras.models.load_model("src/model/modelC0.keras",{"TransposeLayer":TransposeLayer})
 
 for i in range(4):
     obs,_,_,_,_=env.step(0)
