@@ -18,15 +18,16 @@ class BaxterArm():
     def __init__(self,link = [27,34.8,36.5,22.6],initial_pose = [50,160]):
         self.width = 160
         self.height = 320
+        self.link_length = [27,34.8,36.5,22.6]
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.screen.fill(WHITE)
         self.common_link_width = 14.7/251.1 * self.height
         self.eef_width = 13/251.1*self.height
         self.initial_pose = initial_pose               
-        self.ground_link = Link(length=link[0],width=self.common_link_width,color=GREY)
-        self.link_s1e1 = Link(length=link[1],width=self.common_link_width,color=ORANGE)
-        self.link_e1w1 = Link(length=link[2],width=self.common_link_width,color=ORANGE)
-        self.eef = Link(length=link[3],width=self.eef_width,color=GREY)
+        self.ground_link = Link(length=self.link_length[0],width=self.common_link_width,color=GREY)
+        self.link_s1e1 = Link(length=self.link_length[1],width=self.common_link_width,color=ORANGE)
+        self.link_e1w1 = Link(length=self.link_length[2],width=self.common_link_width,color=ORANGE)
+        self.eef = Link(length=self.link_length[3],width=self.eef_width,color=GREY)
         
         self.s1_diameter = self.link_s1e1.link_width * 1.1
         self.e1_diameter = self.link_s1e1.link_width * 1.3

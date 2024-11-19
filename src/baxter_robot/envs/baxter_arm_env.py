@@ -27,6 +27,10 @@ class BaxterEnv(gym.Env):
             self.theta = [0,0,0]
         if SETTING in ["D","E"]:
             self.arm.initial_pose = self.get_random_position()
+        if SETTING in ["E"]:
+            self.arm.link_s1e1.link_length = self.arm.link_length[1] * (100 + np.random.uniform(-4.2, 12.5) )/100
+            self.arm.link_e1w1.link_length = self.arm.link_length[2] * (100 + np.random.uniform(-4.2, 12.5))/100
+            self.arm.eef.link_length = self.arm.link_length[3] * (100 + np.random.uniform(-4.2, 12.5) )/100 
         self.noise = np.random.uniform(-0.1, 0.1, size=(320,160,3)) * 255.0
         self.previous_error = -math.inf
         self.action = {0: np.array([0,0,0]),
@@ -86,6 +90,10 @@ class BaxterEnv(gym.Env):
             theta = self.theta
         if SETTING in ["D","E"]:
             self.arm.initial_pose = self.get_random_position()
+        if SETTING in ["E"]:
+            self.arm.link_s1e1.link_length = self.arm.link_length[1] * (100 + np.random.uniform(-4.2, 12.5) )/100
+            self.arm.link_e1w1.link_length = self.arm.link_length[2] * (100 + np.random.uniform(-4.2, 12.5))/100
+            self.arm.eef.link_length = self.arm.link_length[3] * (100 + np.random.uniform(-4.2, 12.5) )/100 
         self.arm.target = self.arm.get_target()
         self.current_score = deque([0,0,0],maxlen=3)
         end_effector = self.arm.draw_robot(theta)

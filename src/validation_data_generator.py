@@ -22,7 +22,7 @@ env4 = FrameStackObservation(env3,4)
 env4.reset()
 size = 500
 
-for j in range(500):
+for j in range(size):
     x = []
     for i in range(4):
         obs,_,_,_,_=env4.step(0)
